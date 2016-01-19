@@ -69,15 +69,13 @@ set_gpg_epel:
 
 {% if salt['pillar.get']('epel:disabled', False) %}
 disable_epel:
-  file.replace:
-    - name: /etc/yum.repos.d/epel.repo
-    - pattern: '^enabled=[0,1]'
-    - repl: 'enabled=0'
+  pkgrepo.managed:
+    - name: epel
+    - disabled: true
 {% else %}
 enable_epel:
-  file.replace:
-    - name: /etc/yum.repos.d/epel.repo
-    - pattern: '^enabled=[0,1]'
-    - repl: 'enabled=1'
+  pkgrepo.managed:
+    - name: epel
+    - disabled: false
 {% endif %}
 {% endif %}
